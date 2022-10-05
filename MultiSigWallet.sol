@@ -91,6 +91,11 @@ contract MultiSigWallet {
         _;
     }
 
+    modifier validTransactionValue(uint value) {
+        require(value <= 66 ether);
+        _;
+    }
+
     /// @dev Fallback function allows to deposit ether.
     function()
         payable
@@ -289,6 +294,7 @@ contract MultiSigWallet {
     function addTransaction(address destination, uint value, bytes data)
         internal
         notNull(destination)
+        validTransactionValue(value)
         returns (uint transactionId)
     {
         transactionId = transactionCount;
